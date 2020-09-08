@@ -1,0 +1,48 @@
+---
+title: "shopify"
+output: html_document
+---
+
+```{r}
+
+# Loading dataset
+
+dataset = read.csv("/Users/ishakarim/Downloads/Copy of 2019 Winter Data Science Intern Challenge Data Set - Sheet1.csv")
+head(dataset)
+
+# A: 
+
+    # The AOV given in the sample is $3145.13, which is the average of all total order amounts, i.e average of order_amount column
+        avg_order <- sum(dataset$order_amount)/nrow(dataset)
+        avg_order 
+
+    # Issue: One customer may come back multiple times to make a purchase. By taking the average of order_amount, you account for aggregate, not individual, orders. Instead, each order would be factored into AOV separately.
+    
+    # Instead, divide total revenue (order_amount) by the number of orders (total_items). 
+    
+        aov <- sum(dataset$order_amount)/sum(dataset$total_items)
+        aov 
+        
+        # AOV = $357.92
+
+# B: I would look at the Revenue per Visitor metric to assess average revenue per visitor to the website, to tell us how much revenue each unique visitor is driving. 
+
+# C: 
+
+  # Step 1: Calculate Conversion Rate 
+    unique(dataset$user_id) # Unique visitors 
+    cr <- nrow(dataset)/length(unique(dataset$user_id)) # Divide 5000 because each order is unique (order_id), so there are a total 5000 checkouts 
+    cr  
+    
+  #Step 2: Multiply AOV by CR 
+      # RPV = (AOV x Conversions)/Total Unique Visitors
+      # Given: (Conversions/Total Unique Visitors) = Conversion Rate
+      # Therefore: RPV = AOV x Conversion Rate
+    
+    rpv <- aov*cr
+    rpv
+    
+  # RPV = $5945.54
+
+```
+
